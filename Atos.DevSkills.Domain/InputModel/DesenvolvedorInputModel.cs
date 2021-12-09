@@ -1,6 +1,6 @@
-﻿namespace Atos.DevSkills.Domain.Model
+﻿namespace Atos.DevSkills.Domain.InputModel
 {
-    public class Desenvolvedor : ModelBase
+    public class DesenvolvedorInputModel
     {
         public string NomeCompleto { get; set; }
         public string Email { get; set; }
@@ -8,6 +8,6 @@
         public string Telefone { get; set; }
         public DateTime DtNascimento { get; set; }
 
-        public virtual List<Skill> Skills { get; set; } = new();
+        public List<string> Skills { get; set; }
     }
 }

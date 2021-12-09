@@ -13,9 +13,11 @@ namespace Atos.DevSkills.Infra.Data.Repository
             _context = context;
         }
 
-        public Task<T> Add(T model)
+        public async Task<T> Add(T model)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Add(model);
+            await _context.SaveChangesAsync();
+            return model;
         }
 
         public Task Delete(T model)

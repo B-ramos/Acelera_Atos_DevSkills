@@ -1,4 +1,5 @@
-﻿using Atos.DevSkills.Domain.IService;
+﻿using Atos.DevSkills.Domain.InputModel;
+using Atos.DevSkills.Domain.IService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Atos.DevSkills.API.Controllers
@@ -12,6 +13,14 @@ namespace Atos.DevSkills.API.Controllers
         public DesenvolvedorController(IDesenvolvedorService desenvolvedorService)
         {
             _desenvolvedorService = desenvolvedorService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody] DesenvolvedorInputModel model)
+        {
+            var response = await _desenvolvedorService.CadastrarDesenvolvedorAsync(model);
+
+            return Ok(response);            
         }
     }
 }

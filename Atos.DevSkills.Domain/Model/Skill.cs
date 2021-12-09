@@ -2,8 +2,8 @@
 {
     public class Skill : ModelBase
     {
-        public string Habilidade { get; set; }       
+        public string Habilidade { get; set; }
 
-        public virtual List<Desenvolvedor> Desenvolvedores { get; set; }
+        public virtual List<Desenvolvedor> Desenvolvedores { get; set; } = new();
     }
 }

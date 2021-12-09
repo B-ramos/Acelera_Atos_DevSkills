@@ -11,6 +11,7 @@ namespace Atos.DevSkills.Domain.Model
 
         public ModelBase()
         {
+            Status = EStatus.Ativo;
             DtCriacao = DateTime.Now;
             DtAtualizacao = null;
         }
