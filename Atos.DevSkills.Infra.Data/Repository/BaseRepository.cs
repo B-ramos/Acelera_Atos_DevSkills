@@ -1,6 +1,7 @@
 ﻿using Atos.DevSkills.Domain.IRepository;
 using Atos.DevSkills.Domain.Model;
 using Atos.DevSkills.Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Atos.DevSkills.Infra.Data.Repository
 {
@@ -25,9 +26,9 @@ namespace Atos.DevSkills.Infra.Data.Repository
             throw new NotImplementedException();
         }
 
-        public Task<T> FindById(long id)
+        public async Task<T> FindById(long id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task<List<T>> ListAllActive()

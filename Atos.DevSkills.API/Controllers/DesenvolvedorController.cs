@@ -20,7 +20,14 @@ namespace Atos.DevSkills.API.Controllers
         {
             var response = await _desenvolvedorService.CadastrarDesenvolvedorAsync(model);
 
-            return Ok(response);            
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync(long id) 
+        {
+            var desenvolvedor = await _desenvolvedorService.FindById(id);
+            return Ok(desenvolvedor);
         }
     }
 }

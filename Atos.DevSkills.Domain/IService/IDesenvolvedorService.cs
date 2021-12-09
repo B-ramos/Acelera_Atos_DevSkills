@@ -5,6 +5,7 @@ namespace Atos.DevSkills.Domain.IService
 {
     public interface IDesenvolvedorService
     {
-        Task<DesenvolvedorViewModel> CadastrarDesenvolvedorAsync(DesenvolvedorInputModel model);       
+        Task<DesenvolvedorViewModel> CadastrarDesenvolvedorAsync(DesenvolvedorInputModel model);
+        Task<DesenvolvedorViewModel> FindById(long id);
     }
 }

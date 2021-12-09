@@ -38,5 +38,11 @@ namespace Atos.DevSkills.Service.Service
             //desenvolvedor.ToDesenvolvedorViewModel() converte um Desenvolvedor para DesenvolvedorViewModel
             return desenvolvedor.ToDesenvolvedorViewModel();
         }
+
+        public async Task<DesenvolvedorViewModel> FindById(long id)
+        {
+            var desenvolvedor = await _desenvolvedorRepository.FindById(id);
+            return desenvolvedor.ToDesenvolvedorViewModel();
+        }
     }
 }
