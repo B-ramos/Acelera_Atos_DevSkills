@@ -31,9 +31,9 @@ namespace Atos.DevSkills.Infra.Data.Repository
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<T>> ListAllActive()
+        public async Task<List<T>> ListAllActive()
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().ToListAsync();
         }
 
         public Task<T> Update(T model)

@@ -24,10 +24,19 @@ namespace Atos.DevSkills.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync(long id) 
+        public async Task<IActionResult> GetByIdAsync(int id) 
         {
             var desenvolvedor = await _desenvolvedorService.FindById(id);
             return Ok(desenvolvedor);
         }
+
+       [HttpGet]
+       public async Task<IActionResult> GetAsync()
+       {
+
+            var desenvolvedorList = await _desenvolvedorService.ListAll();
+            return Ok(desenvolvedorList);
+
+       }
     }
 }

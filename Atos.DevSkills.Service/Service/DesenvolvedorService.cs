@@ -44,5 +44,11 @@ namespace Atos.DevSkills.Service.Service
             var desenvolvedor = await _desenvolvedorRepository.FindById(id);
             return desenvolvedor.ToDesenvolvedorViewModel();
         }
+
+        public async Task<List<Desenvolvedor>> ListAll()
+        {
+            var desenvolvedorList = await _desenvolvedorRepository.ListAllActive();
+            return desenvolvedorList;
+        }
     }
 }
