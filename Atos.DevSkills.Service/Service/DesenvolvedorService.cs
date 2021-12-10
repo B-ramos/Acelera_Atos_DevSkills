@@ -45,10 +45,16 @@ namespace Atos.DevSkills.Service.Service
             return desenvolvedor.ToDesenvolvedorViewModel();
         }
 
-        public async Task<List<Desenvolvedor>> ListAll()
+        public async Task<List<DesenvolvedorViewModel>> ListAll()
         {
+            var listaDevs = new List<DesenvolvedorViewModel>();
+
             var desenvolvedorList = await _desenvolvedorRepository.ListAllActive();
-            return desenvolvedorList;
+            foreach (var dev in desenvolvedorList) 
+            {
+                listaDevs.Add(dev.ToDesenvolvedorViewModel());
+            }
+            return listaDevs;
         }
     }
 }

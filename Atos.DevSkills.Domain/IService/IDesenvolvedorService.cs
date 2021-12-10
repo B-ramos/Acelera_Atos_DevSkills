@@ -8,6 +8,6 @@ namespace Atos.DevSkills.Domain.IService
     {
         Task<DesenvolvedorViewModel> CadastrarDesenvolvedorAsync(DesenvolvedorInputModel model);
         Task<DesenvolvedorViewModel> FindById(long id);
-        Task<List<Desenvolvedor>> ListAll();
+        Task<List<DesenvolvedorViewModel>> ListAll();
     }
 }

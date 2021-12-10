@@ -6,7 +6,7 @@ namespace Atos.DevSkills.Domain.Extension
 {
     public static class DesenvolvedorExtension
     {        
-        public static Desenvolvedor ToDesenvolvedor (this DesenvolvedorInputModel model, List<Skill> skills)
+        public static Desenvolvedor ToDesenvolvedor(this DesenvolvedorInputModel model, List<Skill> skills)
         {
             return new Desenvolvedor
             {
@@ -24,7 +24,12 @@ namespace Atos.DevSkills.Domain.Extension
             return new DesenvolvedorViewModel
             {
                 Id = model.Id,
-                Nome = model.NomeCompleto               
+                Nome = model.NomeCompleto,
+                Cpf = model.Cpf,
+                Telefone = model.Telefone,
+                Email = model.Email,
+                DtNascimento = model.DtNascimento,
+                Skills = model.Skills
             };
         }
     }
