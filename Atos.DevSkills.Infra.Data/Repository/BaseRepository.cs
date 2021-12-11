@@ -1,4 +1,5 @@
-﻿using Atos.DevSkills.Domain.IRepository;
+﻿using Atos.DevSkills.Domain.Enum;
+using Atos.DevSkills.Domain.IRepository;
 using Atos.DevSkills.Domain.Model;
 using Atos.DevSkills.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,9 @@ namespace Atos.DevSkills.Infra.Data.Repository
 
         public async Task<List<T>> ListAllActive()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>()
+                .Where(x => x.Status == EStatus.Ativo)
+                .ToListAsync();
         }
 
         public Task<T> Update(T model)
