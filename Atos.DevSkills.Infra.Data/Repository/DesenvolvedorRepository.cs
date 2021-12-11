@@ -11,6 +11,13 @@ namespace Atos.DevSkills.Infra.Data.Repository
         public DesenvolvedorRepository(DevSkillsContext context) : base(context)
         {
         }
+
+        public async Task<bool> ExistByEmail(string email)
+        {
+            return await _context.Desenvolvedores
+                        .AnyAsync(x => x.Email == email);
+        }
+
         public async Task<List<Desenvolvedor>> ListAllWithSkill()
         {
             return await _context.Desenvolvedores

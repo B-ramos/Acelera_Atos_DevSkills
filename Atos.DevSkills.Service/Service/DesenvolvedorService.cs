@@ -18,24 +18,13 @@ namespace Atos.DevSkills.Service.Service
 
         public async Task<DesenvolvedorViewModel> CadastrarDesenvolvedorAsync(DesenvolvedorInputModel model)
         {
-            //Cria uma lista de skills
             var listaSkills = new List<Skill>();
 
-            //Percorre as skills que vem do usuário(front/input) e adiciona uma nova skill
-            //Falta validações, fica de exemplo
             foreach (var skill in model.Skills)
                 listaSkills.Add(new Skill { Habilidade = skill });
 
-            //O repositorio espera um objeto do tipo Desenvolvedor
-            //Como recebemos um desenvolvedorInputModel, precisamos convertelo
-            //Criei um metodo de extensao de exemplo, só pra ver como funciona
-            //Esse metodo fica na camada Domain dentro da pasta extension
-            //Vamos usar o exemplo que João passou no projeto, só fiz para deixar de referencia beleza
-            //Eu explico como funciona e depois apagamos esses comentarios
-            //model.ToDesenvolvedor(listaSkills) converte um DesenvolvedorInputModel para Desenvolvedor
             var desenvolvedor = await _desenvolvedorRepository.Add(model.ToDesenvolvedor(listaSkills));
 
-            //desenvolvedor.ToDesenvolvedorViewModel() converte um Desenvolvedor para DesenvolvedorViewModel
             return desenvolvedor.ToDesenvolvedorViewModel();
         }
 
@@ -55,6 +44,41 @@ namespace Atos.DevSkills.Service.Service
                 listaDevs.Add(dev.ToDesenvolvedorViewModel());
             }
             return listaDevs;
+        }
+
+        public async Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model)
+        {
+            var desenvolvedor = await _desenvolvedorRepository.FindById(id);
+            if (desenvolvedor == null)
+            {
+                throw new Exception("Desenvolvedor não encontrado.");
+            }
+
+            var dev = await ToDesenvolvedorUpdate(model, desenvolvedor);
+
+            var desenvolvedorUpdate = await _desenvolvedorRepository.Update(dev);
+
+            return desenvolvedorUpdate.ToDesenvolvedorViewModel();
+        }
+
+        private async Task<Desenvolvedor> ToDesenvolvedorUpdate(DesenvolvedorUpdateInputModel model, Desenvolvedor desenvolvedor)
+        {
+            if (!string.IsNullOrEmpty(model.NomeCompleto))
+                desenvolvedor.NomeCompleto = model.NomeCompleto;
+
+            if (!string.IsNullOrEmpty(model.Telefone))
+                desenvolvedor.Telefone = model.Telefone;
+
+            if (!string.IsNullOrEmpty(model.Email) || model.Email != desenvolvedor.Email)
+            {
+                var dev = await _desenvolvedorRepository.ExistByEmail(model.Email);
+                if (dev is false)
+                    desenvolvedor.Email = model.Email;
+                else
+                    throw new Exception("E-mail já existente.");
+            }
+
+            return desenvolvedor;
         }
     }
 }
