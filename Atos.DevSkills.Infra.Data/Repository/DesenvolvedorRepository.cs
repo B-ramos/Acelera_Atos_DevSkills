@@ -8,15 +8,13 @@ namespace Atos.DevSkills.Infra.Data.Repository
 {
     public class DesenvolvedorRepository : BaseRepository<Desenvolvedor>, IDesenvolvedorRepository
     {
-        public DesenvolvedorRepository(DevSkillsContext context) : base(context)
-        {
-        }
+        public DesenvolvedorRepository(DevSkillsContext context) : base(context) { }
 
         public async Task<bool> ExistByEmail(string email)
         {
             return await _context.Desenvolvedores
                         .AnyAsync(x => x.Email == email);
-        }        
+        }
 
         public async Task<List<Desenvolvedor>> ListAllWithSkill()
         {
@@ -28,13 +26,18 @@ namespace Atos.DevSkills.Infra.Data.Repository
 
         public async Task<List<Desenvolvedor>> ListAllBySkill(string skill)
         {
-            var query = from d in _context.Desenvolvedores
-                        join s in _context.Skills on d.Id equals s.Id
-                        where  s.Habilidade.Contains(skill)
-                        select d;
+            if (!string.IsNullOrEmpty(skill))
+            {
+                return await _context.Desenvolvedores
+                    .Include(x => x.Skills)
+                    .Where(x => x.Status == EStatus.Ativo)
+                    .Where(x => x.Skills.Any(x => x.Habilidade.Contains(skill)))
+                    .ToListAsync();
+            }
 
-            return await query
+            return await _context.Desenvolvedores
                 .Include(x => x.Skills)
+                .Where(x => x.Status == EStatus.Ativo)
                 .ToListAsync();
         }
 

@@ -47,8 +47,6 @@ namespace Atos.DevSkills.Infra.Data.Repository
         {
             _context.Set<T>().Remove(model);
             await _context.SaveChangesAsync();
-        }
-
-        
+        }        
     }
 }
