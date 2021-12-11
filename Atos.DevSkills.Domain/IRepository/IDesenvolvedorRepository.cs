@@ -4,5 +4,7 @@ namespace Atos.DevSkills.Domain.IRepository
 {
     public interface IDesenvolvedorRepository : IBaseRepository<Desenvolvedor>
     {
+        Task<List<Desenvolvedor>> ListAllWithSkill();
+        Task<bool> ExistByEmail(string email);
     }
 }

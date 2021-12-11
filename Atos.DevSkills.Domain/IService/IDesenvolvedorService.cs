@@ -10,5 +10,6 @@ namespace Atos.DevSkills.Domain.IService
         Task<DesenvolvedorViewModel> FindById(long id);
         Task<List<DesenvolvedorViewModel>> ListAll();
         Task<DesenvolvedorViewModel> Delete(long id);
+        Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model);
     }
 }

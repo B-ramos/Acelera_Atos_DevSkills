@@ -29,7 +29,10 @@ namespace Atos.DevSkills.Domain.Extension
                 Telefone = model.Telefone,
                 Email = model.Email,
                 DtNascimento = model.DtNascimento,
-                Skills = model.Skills
+                Skills = model.Skills.Select(x => new SkillViewModel{
+                            Id = x.Id,
+                            Habilidade = x.Habilidade
+                        }).ToList()
             };
         }
     }
