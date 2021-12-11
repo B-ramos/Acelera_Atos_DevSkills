@@ -16,47 +16,16 @@ namespace Atos.DevSkills.Service.Service
             _desenvolvedorRepository = desenvolvedorRepository;
         }
 
-        public async Task<DesenvolvedorViewModel> CadastrarDesenvolvedorAsync(DesenvolvedorInputModel model)
-        {
-            var listaSkills = new List<Skill>();
-
-            foreach (var skill in model.Skills)
-                listaSkills.Add(new Skill { Habilidade = skill });
-
-            var desenvolvedor = await _desenvolvedorRepository.Add(model.ToDesenvolvedor(listaSkills));
-
-            return desenvolvedor.ToDesenvolvedorViewModel();
-        }
-
-        public async Task<DesenvolvedorViewModel> FindById(int id)
-        {
-            var desenvolvedor = await _desenvolvedorRepository.FindByIdWithSkills(id);
-            return desenvolvedor.ToDesenvolvedorViewModel();
-        }
-
         public async Task<List<DesenvolvedorViewModel>> ListAll()
         {
             var listaDevs = new List<DesenvolvedorViewModel>();
 
             var desenvolvedorList = await _desenvolvedorRepository.ListAllWithSkill();
-            foreach (var dev in desenvolvedorList) 
+            foreach (var dev in desenvolvedorList)
             {
                 listaDevs.Add(dev.ToDesenvolvedorViewModel());
             }
             return listaDevs;
-        }
-        public async Task<DesenvolvedorViewModel> Delete(long id)
-        {
-            var buscaDesenvolvedor = await _desenvolvedorRepository.FindById(id);
-
-            if (buscaDesenvolvedor != null)
-            {
-                var desenvolvedor = await _desenvolvedorRepository.Delete(buscaDesenvolvedor);
-                return desenvolvedor.ToDesenvolvedorViewModel();
-            }
-            return null;
-
-
         }
 
         public async Task<List<DesenvolvedorViewModel>> ListAllByskill(string skill)
@@ -70,6 +39,24 @@ namespace Atos.DevSkills.Service.Service
             }
             return listaDevs;
         }
+
+        public async Task<DesenvolvedorViewModel> FindById(int id)
+        {
+            var desenvolvedor = await _desenvolvedorRepository.FindByIdWithSkills(id);
+            return desenvolvedor.ToDesenvolvedorViewModel();
+        }
+
+        public async Task<DesenvolvedorViewModel> AddAsync(DesenvolvedorInputModel model)
+        {
+            var listaSkills = new List<Skill>();
+
+            foreach (var skill in model.Skills)
+                listaSkills.Add(new Skill { Habilidade = skill });
+
+            var desenvolvedor = await _desenvolvedorRepository.Add(model.ToDesenvolvedor(listaSkills));
+
+            return desenvolvedor.ToDesenvolvedorViewModel();
+        }             
 
         public async Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model)
         {
@@ -86,6 +73,14 @@ namespace Atos.DevSkills.Service.Service
             return desenvolvedorUpdate.ToDesenvolvedorViewModel();
         }
 
+        public async Task Delete(int id)
+        {
+            var buscaDesenvolvedor = await _desenvolvedorRepository.FindById(id);
+
+            if (buscaDesenvolvedor != null)            
+                await _desenvolvedorRepository.Delete(buscaDesenvolvedor);
+        }
+
         private async Task<Desenvolvedor> ToDesenvolvedorUpdate(DesenvolvedorUpdateInputModel model, Desenvolvedor desenvolvedor)
         {
             if (!string.IsNullOrEmpty(model.NomeCompleto))
@@ -94,7 +89,7 @@ namespace Atos.DevSkills.Service.Service
             if (!string.IsNullOrEmpty(model.Telefone))
                 desenvolvedor.Telefone = model.Telefone;
 
-            if (!string.IsNullOrEmpty(model.Email) || model.Email != desenvolvedor.Email)
+            if (!string.IsNullOrEmpty(model.Email) && model.Email != desenvolvedor.Email)
             {
                 var dev = await _desenvolvedorRepository.ExistByEmail(model.Email);
                 if (dev is false)

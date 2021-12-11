@@ -8,6 +8,6 @@ namespace Atos.DevSkills.Domain.IRepository
         Task<T> FindById(int id);
         Task<T> Add(T model);
         Task<T> Update(T model);
-        Task<T> Delete(T model);
+        Task Delete(T model);
     }
 }

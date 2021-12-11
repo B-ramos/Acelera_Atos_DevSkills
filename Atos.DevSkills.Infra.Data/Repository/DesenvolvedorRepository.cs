@@ -36,7 +36,6 @@ namespace Atos.DevSkills.Infra.Data.Repository
             return await query
                 .Include(x => x.Skills)
                 .ToListAsync();
-
         }
 
         public async Task<Desenvolvedor?> FindByIdWithSkills(int id)

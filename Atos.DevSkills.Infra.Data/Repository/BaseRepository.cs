@@ -22,12 +22,11 @@ namespace Atos.DevSkills.Infra.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<T> Delete(T model)
+        public async Task<T> FindById(int id)
         {
-            _context.Set<T>().Remove(model);
-            await _context.SaveChangesAsync();
-            return model;
-            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Set<T>()
+                .Where(x => x.Status == EStatus.Ativo)
+                .FirstAsync(x => x.Id == id);
         }
 
         public async Task<T> Add(T model)
@@ -35,7 +34,7 @@ namespace Atos.DevSkills.Infra.Data.Repository
             _context.Set<T>().Add(model);
             await _context.SaveChangesAsync();
             return model;
-        } 
+        }
 
         public async Task<T> Update(T model)
         {
@@ -44,9 +43,12 @@ namespace Atos.DevSkills.Infra.Data.Repository
             return model;
         }
 
-        public Task Delete(T model)
+        public async Task Delete(T model)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Remove(model);
+            await _context.SaveChangesAsync();
         }
+
+        
     }
 }
