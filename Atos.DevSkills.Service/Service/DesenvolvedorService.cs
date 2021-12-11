@@ -46,6 +46,18 @@ namespace Atos.DevSkills.Service.Service
             return listaDevs;
         }
 
+        public async Task<List<DesenvolvedorViewModel>> ListAllByskill(string skill)
+        {
+            var listaDevs = new List<DesenvolvedorViewModel>();
+
+            var desenvolvedorList = await _desenvolvedorRepository.ListAllBySkill(skill);
+            foreach (var dev in desenvolvedorList)
+            {
+                listaDevs.Add(dev.ToDesenvolvedorViewModel());
+            }
+            return listaDevs;
+        }
+
         public async Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model)
         {
             var desenvolvedor = await _desenvolvedorRepository.FindById(id);

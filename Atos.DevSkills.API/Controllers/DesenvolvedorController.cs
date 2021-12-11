@@ -39,6 +39,15 @@ namespace Atos.DevSkills.API.Controllers
 
         }
 
+        [HttpGet("skill")]
+        public async Task<IActionResult> GetBySkillAsync([FromQuery] string skill)
+        {
+
+            var desenvolvedorList = await _desenvolvedorService.ListAllByskill(skill);
+            return Ok(desenvolvedorList);
+
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] DesenvolvedorUpdateInputModel model)
         {
