@@ -21,9 +21,11 @@ namespace Atos.DevSkills.Infra.Data.Repository
             return model;
         }
 
-        public Task Delete(T model)
+        public async Task<T> Delete(T model)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Remove(model);
+            await _context.SaveChangesAsync();
+            return model;
         }
 
         public async Task<T> FindById(long id)
