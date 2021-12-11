@@ -15,45 +15,39 @@ namespace Atos.DevSkills.API.Controllers
             _desenvolvedorService = desenvolvedorService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] DesenvolvedorInputModel model)
+        [HttpGet]
+        public async Task<IActionResult> GetAsync()
         {
-            var response = await _desenvolvedorService.CadastrarDesenvolvedorAsync(model);
-
-            return Ok(response);
+            var desenvolvedorList = await _desenvolvedorService.ListAll();
+            return Ok(desenvolvedorList);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync(int id) 
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             var desenvolvedor = await _desenvolvedorService.FindById(id);
             return Ok(desenvolvedor);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
-        {
-
-            var desenvolvedorList = await _desenvolvedorService.ListAll();
-            return Ok(desenvolvedorList);
-
-        }
-
         [HttpGet("skill")]
         public async Task<IActionResult> GetBySkillAsync([FromQuery] string skill)
         {
-
             var desenvolvedorList = await _desenvolvedorService.ListAllByskill(skill);
             return Ok(desenvolvedorList);
-
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] DesenvolvedorUpdateInputModel model)
         {
-            var desenvolvedor = await _desenvolvedorService.ListAll();
+            var desenvolvedor = await _desenvolvedorService.UpdateById(id, model);
             return Ok(desenvolvedor);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody] DesenvolvedorInputModel model)
+        {
+            var response = await _desenvolvedorService.CadastrarDesenvolvedorAsync(model);
+            return Ok(response);
         }
     }
 }

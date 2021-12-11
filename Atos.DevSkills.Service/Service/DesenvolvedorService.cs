@@ -28,9 +28,9 @@ namespace Atos.DevSkills.Service.Service
             return desenvolvedor.ToDesenvolvedorViewModel();
         }
 
-        public async Task<DesenvolvedorViewModel> FindById(long id)
+        public async Task<DesenvolvedorViewModel> FindById(int id)
         {
-            var desenvolvedor = await _desenvolvedorRepository.FindById(id);
+            var desenvolvedor = await _desenvolvedorRepository.FindByIdWithSkills(id);
             return desenvolvedor.ToDesenvolvedorViewModel();
         }
 

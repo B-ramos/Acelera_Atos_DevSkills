@@ -15,23 +15,6 @@ namespace Atos.DevSkills.Infra.Data.Repository
             _context = context;
         }
 
-        public async Task<T> Add(T model)
-        {
-            _context.Set<T>().Add(model);
-            await _context.SaveChangesAsync();
-            return model;
-        }
-
-        public Task Delete(T model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<T> FindById(long id)
-        {
-            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
-        }
-
         public async Task<List<T>> ListAllActive()
         {
             return await _context.Set<T>()
@@ -39,7 +22,26 @@ namespace Atos.DevSkills.Infra.Data.Repository
                 .ToListAsync();
         }
 
-        public Task<T> Update(T model)
+        public async Task<T?> FindById(int id)
+        {
+            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<T> Add(T model)
+        {
+            _context.Set<T>().Add(model);
+            await _context.SaveChangesAsync();
+            return model;
+        } 
+
+        public async Task<T> Update(T model)
+        {
+            _context.Set<T>().Update(model);
+            await _context.SaveChangesAsync();
+            return model;
+        }
+
+        public Task Delete(T model)
         {
             throw new NotImplementedException();
         }

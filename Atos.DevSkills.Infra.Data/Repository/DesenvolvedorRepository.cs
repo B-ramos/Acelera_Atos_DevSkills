@@ -38,5 +38,12 @@ namespace Atos.DevSkills.Infra.Data.Repository
                 .ToListAsync();
 
         }
+
+        public async Task<Desenvolvedor?> FindByIdWithSkills(int id)
+        {
+            return await _context.Desenvolvedores
+                .Include(x => x.Skills)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
