@@ -49,7 +49,7 @@ namespace Atos.DevSkills.Service.Service
         {
             var listaDevs = new List<DesenvolvedorViewModel>();
 
-            var desenvolvedorList = await _desenvolvedorRepository.ListAllActive();
+            var desenvolvedorList = await _desenvolvedorRepository.ListAllWithSkill();
             foreach (var dev in desenvolvedorList) 
             {
                 listaDevs.Add(dev.ToDesenvolvedorViewModel());

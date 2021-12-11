@@ -11,6 +11,6 @@ namespace Atos.DevSkills.Domain.ViewModel
         public string Telefone { get; set; }
         public DateTime DtNascimento { get; set; }
 
-        public virtual List<Skill> Skills { get; set; } = new();
+        public virtual List<SkillViewModel> Skills { get; set; } = new();
     }
 }
