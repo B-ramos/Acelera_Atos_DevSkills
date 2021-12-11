@@ -34,6 +34,15 @@ namespace Atos.DevSkills.API.Controllers
         {
             var desenvolvedorList = await _desenvolvedorService.ListAllByskill(skill);
             return Ok(desenvolvedorList);
+
+       }
+        
+       [HttpDelete]
+       public async Task<IActionResult> DeleteAsync(int id)
+       {
+           var desenvolvedor = await _desenvolvedorService.Delete(id);
+           return Ok(desenvolvedor);
+       }
         }
 
         [HttpPut("{id}")]

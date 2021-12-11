@@ -45,6 +45,19 @@ namespace Atos.DevSkills.Service.Service
             }
             return listaDevs;
         }
+        public async Task<DesenvolvedorViewModel> Delete(long id)
+        {
+            var buscaDesenvolvedor = await _desenvolvedorRepository.FindById(id);
+
+            if (buscaDesenvolvedor != null)
+            {
+                var desenvolvedor = await _desenvolvedorRepository.Delete(buscaDesenvolvedor);
+                return desenvolvedor.ToDesenvolvedorViewModel();
+            }
+            return null;
+
+
+        }
 
         public async Task<List<DesenvolvedorViewModel>> ListAllByskill(string skill)
         {

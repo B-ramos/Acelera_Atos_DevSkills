@@ -22,8 +22,11 @@ namespace Atos.DevSkills.Infra.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<T?> FindById(int id)
+        public async Task<T> Delete(T model)
         {
+            _context.Set<T>().Remove(model);
+            await _context.SaveChangesAsync();
+            return model;
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
