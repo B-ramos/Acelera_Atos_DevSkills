@@ -9,7 +9,7 @@ namespace Atos.DevSkills.Domain.IService
         Task<DesenvolvedorViewModel> FindById(int id);
         Task<List<DesenvolvedorViewModel>> ListAll();
         Task Delete(int id);
-        Task<List<DesenvolvedorViewModel>> ListAllByskill(string skill);
-        Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model);
+        Task<List<DesenvolvedorViewModel>> ListAllBySkill(string? skill);
+        Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model);        
     }
 }

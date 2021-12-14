@@ -30,11 +30,10 @@ namespace Atos.DevSkills.API.Controllers
         }
 
         [HttpGet("skill")]
-        public async Task<IActionResult> GetBySkillAsync([FromQuery] string skill)
+        public async Task<IActionResult> GetBySkillAsync([FromQuery] string? skill)
         {
-            var desenvolvedorList = await _desenvolvedorService.ListAllByskill(skill);
+            var desenvolvedorList = await _desenvolvedorService.ListAllBySkill(skill);
             return Ok(desenvolvedorList);
-
         }
 
         [HttpPost]

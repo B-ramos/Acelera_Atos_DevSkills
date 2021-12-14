@@ -23,6 +23,7 @@ namespace Atos.DevSkills.Service.Service
             var listaDevs = new List<DesenvolvedorViewModel>();
 
             var desenvolvedorList = await _desenvolvedorRepository.ListAllWithSkill();
+
             foreach (var dev in desenvolvedorList)
             {
                 listaDevs.Add(dev.ToDesenvolvedorViewModel());
@@ -30,16 +31,11 @@ namespace Atos.DevSkills.Service.Service
             return listaDevs;
         }
 
-        public async Task<List<DesenvolvedorViewModel>> ListAllByskill(string skill)
+        public async Task<List<DesenvolvedorViewModel>> ListAllBySkill(string skill)
         {
-            var listaDevs = new List<DesenvolvedorViewModel>();
-
-            var desenvolvedorList = await _desenvolvedorRepository.ListAllBySkill(skill);
-            foreach (var dev in desenvolvedorList)
-            {
-                listaDevs.Add(dev.ToDesenvolvedorViewModel());
-            }
-            return listaDevs;
+            var desenvolvedorList = await _desenvolvedorRepository.ListAllBySkill(skill);   
+            
+            return desenvolvedorList.Select(x => x.ToDesenvolvedorViewModel()).ToList();
         }
 
         public async Task<DesenvolvedorViewModel> FindById(int id)
