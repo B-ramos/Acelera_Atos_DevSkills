@@ -22,7 +22,7 @@ namespace Atos.DevSkills.API.Controllers
             return Ok(desenvolvedorList);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             var desenvolvedor = await _desenvolvedorService.FindById(id);
@@ -44,14 +44,14 @@ namespace Atos.DevSkills.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] DesenvolvedorUpdateInputModel model)
         {
             var desenvolvedor = await _desenvolvedorService.UpdateById(id, model);
             return Ok(desenvolvedor);
         }        
 
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             await _desenvolvedorService.Delete(id);

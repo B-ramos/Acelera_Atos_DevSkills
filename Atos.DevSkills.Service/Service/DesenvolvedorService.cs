@@ -4,12 +4,14 @@ using Atos.DevSkills.Domain.IRepository;
 using Atos.DevSkills.Domain.IService;
 using Atos.DevSkills.Domain.Model;
 using Atos.DevSkills.Domain.ViewModel;
+using Atos.DevSkills.Service.Validators;
 
 namespace Atos.DevSkills.Service.Service
 {
     public class DesenvolvedorService : IDesenvolvedorService
     {
         private readonly IDesenvolvedorRepository _desenvolvedorRepository;
+        //private readonly DesenvolvedorValidador _validator;
 
         public DesenvolvedorService(IDesenvolvedorRepository desenvolvedorRepository)
         {
@@ -61,12 +63,10 @@ namespace Atos.DevSkills.Service.Service
         public async Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model)
         {
             var desenvolvedor = await _desenvolvedorRepository.FindById(id);
-            if (desenvolvedor == null)
-            {
-                throw new Exception("Desenvolvedor não encontrado.");
-            }
 
-            var dev = await ToDesenvolvedorUpdate(model, desenvolvedor);
+            DesenvolvedorValidador.Validate(desenvolvedor);
+
+            var dev = await DesenvolvedorValidador.Validate(model, desenvolvedor, _desenvolvedorRepository);
 
             var desenvolvedorUpdate = await _desenvolvedorRepository.Update(dev);
 
@@ -77,28 +77,8 @@ namespace Atos.DevSkills.Service.Service
         {
             var buscaDesenvolvedor = await _desenvolvedorRepository.FindById(id);
 
-            if (buscaDesenvolvedor != null)            
+            if (buscaDesenvolvedor != null)
                 await _desenvolvedorRepository.Delete(buscaDesenvolvedor);
-        }
-
-        private async Task<Desenvolvedor> ToDesenvolvedorUpdate(DesenvolvedorUpdateInputModel model, Desenvolvedor desenvolvedor)
-        {
-            if (!string.IsNullOrEmpty(model.NomeCompleto))
-                desenvolvedor.NomeCompleto = model.NomeCompleto;
-
-            if (!string.IsNullOrEmpty(model.Telefone))
-                desenvolvedor.Telefone = model.Telefone;
-
-            if (!string.IsNullOrEmpty(model.Email) && model.Email != desenvolvedor.Email)
-            {
-                var dev = await _desenvolvedorRepository.ExistByEmail(model.Email);
-                if (dev is false)
-                    desenvolvedor.Email = model.Email;
-                else
-                    throw new Exception("E-mail já existente.");
-            }
-
-            return desenvolvedor;
         }
     }
 }

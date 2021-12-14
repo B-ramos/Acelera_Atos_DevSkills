@@ -17,10 +17,8 @@ namespace Atos.DevSkills.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-
             var skillList = await _skillService.ListAll();
             return Ok(skillList);
-
         }
     }
 }
