@@ -26,7 +26,7 @@ namespace Atos.DevSkills.Infra.Data.Repository
         {
             return await _context.Set<T>()
                 .Where(x => x.Status == EStatus.Ativo)
-                .FirstAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<T> Add(T model)

@@ -18,22 +18,22 @@ namespace Atos.DevSkills.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var desenvolvedorList = await _desenvolvedorService.ListAll();
-            return Ok(desenvolvedorList);
+            var response = await _desenvolvedorService.ListAll();
+            return Ok(response);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var desenvolvedor = await _desenvolvedorService.FindById(id);
-            return Ok(desenvolvedor);
+            var response = await _desenvolvedorService.FindById(id);
+            return Ok(response);
         }
 
         [HttpGet("skill")]
         public async Task<IActionResult> GetBySkillAsync([FromQuery] string? skill)
         {
-            var desenvolvedorList = await _desenvolvedorService.ListAllBySkill(skill);
-            return Ok(desenvolvedorList);
+            var response = await _desenvolvedorService.ListAllBySkill(skill);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -46,15 +46,15 @@ namespace Atos.DevSkills.API.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] DesenvolvedorUpdateInputModel model)
         {
-            var desenvolvedor = await _desenvolvedorService.UpdateById(id, model);
-            return Ok(desenvolvedor);
+            var response = await _desenvolvedorService.UpdateById(id, model);
+            return Ok(response);
         }        
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _desenvolvedorService.Delete(id);
-            return NoContent();
+            var response = await _desenvolvedorService.Delete(id);
+            return Ok(response);
         }
     }
 }

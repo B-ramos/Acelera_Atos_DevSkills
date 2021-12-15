@@ -14,6 +14,7 @@ namespace Atos.DevSkills.Infra.Data.Repository.Mocks
                 NomeCompleto = model.NomeCompleto,
                 Email = model.Email,
                 Telefone = model.Telefone,
+                DtNascimento = model.DtNascimento,
                 Skills = model.Skills
             };
         }
@@ -25,7 +26,14 @@ namespace Atos.DevSkills.Infra.Data.Repository.Mocks
 
         public async Task<bool> ExistByEmail(string email)
         {
-            return false;
+            var emailBanco = "teste@email.com";
+
+            return emailBanco == email ? true: false;                
+        }
+
+        public Task<bool> ExistsById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<Desenvolvedor> FindById(int id)

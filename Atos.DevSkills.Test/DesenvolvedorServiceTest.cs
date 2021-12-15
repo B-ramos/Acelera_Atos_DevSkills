@@ -1,31 +1,32 @@
 using Atos.DevSkills.Domain.Config;
 using Atos.DevSkills.Domain.InputModel;
-using Atos.DevSkills.Domain.IService;
-using Atos.DevSkills.Domain.Model;
 using Atos.DevSkills.Infra.Data.Repository.Factories;
-using Atos.DevSkills.Infra.Data.Repository.Mocks;
 using Atos.DevSkills.Service.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Atos.DevSkills.Test
 {
     [TestClass]
     public class DesenvolvedorServiceTest
     {
-        protected IDesenvolvedorService _service;
+        private readonly Mock<DesenvolvedorRepositoryFactory> _repositoryFactory;
+        private readonly Mock<SkillRepositoryFactory> _skillFactory;
 
-        public DesenvolvedorServiceTest(IDesenvolvedorService service) 
-        { 
+        public DesenvolvedorServiceTest()
+        {
             Config.Flag = true;
-            _service = service;
+
+            _repositoryFactory = new Mock<DesenvolvedorRepositoryFactory>(null);
+            _skillFactory = new Mock<SkillRepositoryFactory>(null);
         }
 
         [TestMethod]
         public void SholdAddDeveloper()
         {
+
             List<string> skills = new List<string>();
             skills.Add("C#");
             skills.Add("String");
@@ -35,16 +36,16 @@ namespace Atos.DevSkills.Test
             dev.Cpf = "125478965412";
             dev.DtNascimento = DateTime.Now;
             dev.Telefone = "+5586998745632";
-            dev.Skills = skills;
+            dev.Email = "jose@email.com";
+            dev.Skills = skills;            
 
-            var response = _service.AddAsync(dev).Result;
+            var service = new DesenvolvedorService(_repositoryFactory.Object, _skillFactory.Object);
+
+            var response = service.AddAsync(dev).Result;
 
             Assert.AreEqual(0, response.CodError);
         }
 
-        public void True() 
-        {
-            Assert.AreEqual(true, true);
-        }
     }
 }
+  

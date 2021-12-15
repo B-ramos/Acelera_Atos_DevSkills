@@ -11,12 +11,12 @@ namespace Atos.DevSkills.Service.Service
     public class DesenvolvedorService : IDesenvolvedorService
     {
         private readonly DesenvolvedorRepositoryFactory _desenvolvedorFactory;
-        private readonly SkillRepositoryFactory _skillFactory;        
-        private readonly IDesenvolvedorRepository _desenvolvedorRepository;        
-        private readonly ISkillRepository _skillRepository;        
+        private readonly SkillRepositoryFactory _skillFactory;
+        private readonly IDesenvolvedorRepository _desenvolvedorRepository;
+        private readonly ISkillRepository _skillRepository;
 
         public DesenvolvedorService(DesenvolvedorRepositoryFactory desenvolvedorFactory, SkillRepositoryFactory skillFactory)
-        {            
+        {
             _desenvolvedorFactory = desenvolvedorFactory;
             _desenvolvedorRepository = _desenvolvedorFactory.CreateFactory();
 
@@ -24,7 +24,7 @@ namespace Atos.DevSkills.Service.Service
             _skillRepository = _skillFactory.CreateFactory();
         }
 
-        public async Task<List<DesenvolvedorViewModel>> ListAll()
+        public async Task<DefaultViewModel<List<DesenvolvedorViewModel>>> ListAll()
         {
             var listaDevs = new List<DesenvolvedorViewModel>();
 
@@ -34,20 +34,20 @@ namespace Atos.DevSkills.Service.Service
             {
                 listaDevs.Add(dev.ToDesenvolvedorViewModel());
             }
-            return listaDevs;
+            return new DefaultViewModel<List<DesenvolvedorViewModel>>(listaDevs);
         }
 
-        public async Task<List<DesenvolvedorViewModel>> ListAllBySkill(string skill)
+        public async Task<DefaultViewModel<List<DesenvolvedorViewModel>>> ListAllBySkill(string skill)
         {
-            var desenvolvedorList = await _desenvolvedorRepository.ListAllBySkill(skill);   
-            
-            return desenvolvedorList.Select(x => x.ToDesenvolvedorViewModel()).ToList();
+            var desenvolvedorList = await _desenvolvedorRepository.ListAllBySkill(skill);
+
+            return new DefaultViewModel<List<DesenvolvedorViewModel>>(desenvolvedorList.Select(x => x.ToDesenvolvedorViewModel()).ToList());
         }
 
-        public async Task<DesenvolvedorViewModel> FindById(int id)
+        public async Task<DefaultViewModel<DesenvolvedorViewModel>> FindById(int id)
         {
             var desenvolvedor = await _desenvolvedorRepository.FindByIdWithSkills(id);
-            return desenvolvedor.ToDesenvolvedorViewModel();
+            return new DefaultViewModel<DesenvolvedorViewModel>(desenvolvedor.ToDesenvolvedorViewModel());
         }
 
         public async Task<DefaultViewModel<DesenvolvedorViewModel>> AddAsync(DesenvolvedorInputModel model)
@@ -61,9 +61,9 @@ namespace Atos.DevSkills.Service.Service
 
             return new DefaultViewModel<DesenvolvedorViewModel>(desenvolvedor.ToDesenvolvedorViewModel());
 
-        }             
+        }
 
-        public async Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model)
+        public async Task<DefaultViewModel<DesenvolvedorViewModel>> UpdateById(int id, DesenvolvedorUpdateInputModel model)
         {
             var desenvolvedor = await _desenvolvedorRepository.FindById(id);
 
@@ -73,15 +73,17 @@ namespace Atos.DevSkills.Service.Service
 
             var desenvolvedorUpdate = await _desenvolvedorRepository.Update(dev);
 
-            return desenvolvedorUpdate.ToDesenvolvedorViewModel();
+            return new DefaultViewModel<DesenvolvedorViewModel>(desenvolvedorUpdate.ToDesenvolvedorViewModel());
         }
 
-        public async Task Delete(int id)
+        public async Task<DefaultViewModel<string>> Delete(int id)
         {
-            var buscaDesenvolvedor = await _desenvolvedorRepository.FindById(id);
+            var desenvolvedor = await _desenvolvedorRepository.FindById(id);
+            DesenvolvedorValidador.Validate(desenvolvedor);
 
-            if (buscaDesenvolvedor != null)
-                await _desenvolvedorRepository.Delete(buscaDesenvolvedor);
+            await _desenvolvedorRepository.Delete(desenvolvedor);
+
+            return new DefaultViewModel<string>("Desenvolvedor deletado com sucesso.");
         }
     }
 }

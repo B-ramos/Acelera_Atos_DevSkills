@@ -47,5 +47,10 @@ namespace Atos.DevSkills.Infra.Data.Repository
                 .Include(x => x.Skills)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<bool> ExistsById(int id)
+        {
+            return await _context.Desenvolvedores.AnyAsync(x => x.Id == id);
+        }
     }
 }
