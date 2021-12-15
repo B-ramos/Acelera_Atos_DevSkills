@@ -2,12 +2,15 @@ using Atos.DevSkills.Domain.IRepository;
 using Atos.DevSkills.Domain.IService;
 using Atos.DevSkills.Infra.Data.Context;
 using Atos.DevSkills.Infra.Data.Repository;
+using Atos.DevSkills.Infra.Data.Repository.Factories;
 using Atos.DevSkills.Service.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<DesenvolvedorRepositoryFactory>();
+builder.Services.AddScoped<SkillRepositoryFactory>();
 builder.Services.AddScoped<IDesenvolvedorService, DesenvolvedorService>();
 builder.Services.AddScoped<ISkillRepository, SkillRepository>();
 builder.Services.AddScoped<IDesenvolvedorRepository, DesenvolvedorRepository>();

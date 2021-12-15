@@ -3,21 +3,25 @@ using Atos.DevSkills.Domain.InputModel;
 using Atos.DevSkills.Domain.IRepository;
 using Atos.DevSkills.Domain.IService;
 using Atos.DevSkills.Domain.ViewModel;
+using Atos.DevSkills.Infra.Data.Repository.Factories;
 using Atos.DevSkills.Service.Validators;
 
 namespace Atos.DevSkills.Service.Service
 {
     public class DesenvolvedorService : IDesenvolvedorService
     {
-        private readonly IDesenvolvedorRepository _desenvolvedorRepository;
-        private readonly ISkillRepository _skillRepository;
+        private readonly DesenvolvedorRepositoryFactory _desenvolvedorFactory;
+        private readonly SkillRepositoryFactory _skillFactory;        
+        private readonly IDesenvolvedorRepository _desenvolvedorRepository;        
+        private readonly ISkillRepository _skillRepository;        
 
-        //private readonly DesenvolvedorValidador _validator;
+        public DesenvolvedorService(DesenvolvedorRepositoryFactory desenvolvedorFactory, SkillRepositoryFactory skillFactory)
+        {            
+            _desenvolvedorFactory = desenvolvedorFactory;
+            _desenvolvedorRepository = _desenvolvedorFactory.CreateFactory();
 
-        public DesenvolvedorService(IDesenvolvedorRepository desenvolvedorRepository, ISkillRepository skillRepository)
-        {
-            _desenvolvedorRepository = desenvolvedorRepository;
-            _skillRepository = skillRepository;
+            _skillFactory = skillFactory;
+            _skillRepository = _skillFactory.CreateFactory();
         }
 
         public async Task<List<DesenvolvedorViewModel>> ListAll()
