@@ -2,7 +2,6 @@
 using Atos.DevSkills.Domain.InputModel;
 using Atos.DevSkills.Domain.IRepository;
 using Atos.DevSkills.Domain.IService;
-using Atos.DevSkills.Domain.Model;
 using Atos.DevSkills.Domain.ViewModel;
 using Atos.DevSkills.Service.Validators;
 
@@ -11,11 +10,14 @@ namespace Atos.DevSkills.Service.Service
     public class DesenvolvedorService : IDesenvolvedorService
     {
         private readonly IDesenvolvedorRepository _desenvolvedorRepository;
+        private readonly ISkillRepository _skillRepository;
+
         //private readonly DesenvolvedorValidador _validator;
 
-        public DesenvolvedorService(IDesenvolvedorRepository desenvolvedorRepository)
+        public DesenvolvedorService(IDesenvolvedorRepository desenvolvedorRepository, ISkillRepository skillRepository)
         {
             _desenvolvedorRepository = desenvolvedorRepository;
+            _skillRepository = skillRepository;
         }
 
         public async Task<List<DesenvolvedorViewModel>> ListAll()
@@ -46,14 +48,15 @@ namespace Atos.DevSkills.Service.Service
 
         public async Task<DesenvolvedorViewModel> AddAsync(DesenvolvedorInputModel model)
         {
-            var listaSkills = new List<Skill>();
+            if (await _desenvolvedorRepository.ExistByEmail(model.Email))
+                throw new Exception($"E-mail já existente.");
 
-            foreach (var skill in model.Skills)
-                listaSkills.Add(new Skill { Habilidade = skill });
+            var skills = await SkillValidator.CreateSkillNotExists(model.Skills, _skillRepository);
 
-            var desenvolvedor = await _desenvolvedorRepository.Add(model.ToDesenvolvedor(listaSkills));
+            var desenvolvedor = await _desenvolvedorRepository.Add(model.ToDesenvolvedor(skills));
 
             return desenvolvedor.ToDesenvolvedorViewModel();
+
         }             
 
         public async Task<DesenvolvedorViewModel> UpdateById(int id, DesenvolvedorUpdateInputModel model)
