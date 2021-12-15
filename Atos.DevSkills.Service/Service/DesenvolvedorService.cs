@@ -50,7 +50,7 @@ namespace Atos.DevSkills.Service.Service
             return desenvolvedor.ToDesenvolvedorViewModel();
         }
 
-        public async Task<DesenvolvedorViewModel> AddAsync(DesenvolvedorInputModel model)
+        public async Task<DefaultViewModel<DesenvolvedorViewModel>> AddAsync(DesenvolvedorInputModel model)
         {
             if (await _desenvolvedorRepository.ExistByEmail(model.Email))
                 throw new Exception($"E-mail já existente.");
@@ -59,7 +59,7 @@ namespace Atos.DevSkills.Service.Service
 
             var desenvolvedor = await _desenvolvedorRepository.Add(model.ToDesenvolvedor(skills));
 
-            return desenvolvedor.ToDesenvolvedorViewModel();
+            return new DefaultViewModel<DesenvolvedorViewModel>(desenvolvedor.ToDesenvolvedorViewModel());
 
         }             
 

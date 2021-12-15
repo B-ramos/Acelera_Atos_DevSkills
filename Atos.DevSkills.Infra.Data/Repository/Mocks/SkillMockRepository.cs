@@ -20,9 +20,9 @@ namespace Atos.DevSkills.Infra.Data.Repository.Mocks
             throw new NotImplementedException();
         }
 
-        public Task<Skill> FindByNameAsync(string skill)
+        public async Task<Skill> FindByNameAsync(string skill)
         {
-            throw new NotImplementedException();
+            return new Skill{ Habilidade= skill, Id =1 };
         }
 
         public Task<List<Skill>> ListAllActive()

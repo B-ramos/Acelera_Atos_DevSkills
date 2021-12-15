@@ -5,7 +5,7 @@ namespace Atos.DevSkills.Domain.IService
 {
     public interface IDesenvolvedorService
     {
-        Task<DesenvolvedorViewModel> AddAsync(DesenvolvedorInputModel model);
+        Task<DefaultViewModel<DesenvolvedorViewModel>> AddAsync(DesenvolvedorInputModel model);
         Task<DesenvolvedorViewModel> FindById(int id);
         Task<List<DesenvolvedorViewModel>> ListAll();
         Task Delete(int id);

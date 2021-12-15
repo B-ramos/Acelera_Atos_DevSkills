@@ -13,7 +13,8 @@ namespace Atos.DevSkills.Infra.Data.Repository.Mocks
                 Cpf = model.Cpf,
                 NomeCompleto = model.NomeCompleto,
                 Email = model.Email,
-                Telefone = model.Telefone,                
+                Telefone = model.Telefone,
+                Skills = model.Skills
             };
         }
 
