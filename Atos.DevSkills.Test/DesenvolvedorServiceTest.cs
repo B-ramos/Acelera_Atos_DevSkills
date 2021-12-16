@@ -42,7 +42,7 @@ namespace Atos.DevSkills.Test
 
             var response = _service.AddAsync(dev).Result;
 
-            Assert.AreEqual(0, response.CodError);
+            Assert.IsTrue(response.Data.Id > 0);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace Atos.DevSkills.Test
             dev.Email = "teste@email.com";
             dev.Skills = skills;  
 
-            var exe = Assert.ThrowsExceptionAsync<Exception>(
+            var exe = Assert.ThrowsExceptionAsync<ArgumentException>(
                 async () => await _service.AddAsync(dev));            
 
             Assert.AreEqual("E-mail já existente.", exe.Result.Message);

@@ -10,7 +10,7 @@ namespace Atos.DevSkills.Service.Validators
         {
             if (desenvolvedor == null) 
             {
-                throw new Exception("O desenvolvedor não existe");
+                throw new ArgumentException("O desenvolvedor não existe");
             }
         }
 
@@ -28,7 +28,7 @@ namespace Atos.DevSkills.Service.Validators
                 if (dev is false)
                     desenvolvedor.Email = model.Email;
                 else
-                    throw new Exception("E-mail já existente.");
+                    throw new ArgumentException("E-mail já existente.");
             }
 
             return desenvolvedor;

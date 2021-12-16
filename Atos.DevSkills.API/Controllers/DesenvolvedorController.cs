@@ -1,5 +1,6 @@
 ﻿using Atos.DevSkills.Domain.InputModel;
 using Atos.DevSkills.Domain.IService;
+using Atos.DevSkills.Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Atos.DevSkills.API.Controllers
@@ -48,7 +49,7 @@ namespace Atos.DevSkills.API.Controllers
         {
             var response = await _desenvolvedorService.UpdateById(id, model);
             return Ok(response);
-        }        
+        }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)

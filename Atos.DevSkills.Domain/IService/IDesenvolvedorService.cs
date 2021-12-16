@@ -5,11 +5,11 @@ namespace Atos.DevSkills.Domain.IService
 {
     public interface IDesenvolvedorService
     {
-        Task<DefaultViewModel<DesenvolvedorViewModel>> AddAsync(DesenvolvedorInputModel model);
-        Task<DefaultViewModel<DesenvolvedorViewModel>> FindById(int id);
-        Task<DefaultViewModel<List<DesenvolvedorViewModel>>> ListAll();
-        Task<DefaultViewModel<string>> Delete(int id);
-        Task<DefaultViewModel<List<DesenvolvedorViewModel>>> ListAllBySkill(string? skill);
-        Task<DefaultViewModel<DesenvolvedorViewModel>> UpdateById(int id, DesenvolvedorUpdateInputModel model);        
+        Task<ResponseViewModel<DesenvolvedorViewModel>> AddAsync(DesenvolvedorInputModel model);
+        Task<ResponseViewModel<DesenvolvedorViewModel>> FindById(int id);
+        Task<ResponseViewModel<List<DesenvolvedorViewModel>>> ListAll();
+        Task<ResponseViewModel<string>> Delete(int id);
+        Task<ResponseViewModel<List<DesenvolvedorViewModel>>> ListAllBySkill(string? skill);
+        Task<ResponseViewModel<DesenvolvedorViewModel>> UpdateById(int id, DesenvolvedorUpdateInputModel model);        
     }
 }

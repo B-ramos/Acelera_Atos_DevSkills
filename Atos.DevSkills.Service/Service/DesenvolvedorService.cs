@@ -24,7 +24,7 @@ namespace Atos.DevSkills.Service.Service
             _skillRepository = _skillFactory.CreateFactory();
         }
 
-        public async Task<DefaultViewModel<List<DesenvolvedorViewModel>>> ListAll()
+        public async Task<ResponseViewModel<List<DesenvolvedorViewModel>>> ListAll()
         {
             var listaDevs = new List<DesenvolvedorViewModel>();
 
@@ -34,36 +34,39 @@ namespace Atos.DevSkills.Service.Service
             {
                 listaDevs.Add(dev.ToDesenvolvedorViewModel());
             }
-            return new DefaultViewModel<List<DesenvolvedorViewModel>>(listaDevs);
+            return new ResponseViewModel<List<DesenvolvedorViewModel>>(listaDevs);
         }
 
-        public async Task<DefaultViewModel<List<DesenvolvedorViewModel>>> ListAllBySkill(string skill)
+        public async Task<ResponseViewModel<List<DesenvolvedorViewModel>>> ListAllBySkill(string skill)
         {
             var desenvolvedorList = await _desenvolvedorRepository.ListAllBySkill(skill);
 
-            return new DefaultViewModel<List<DesenvolvedorViewModel>>(desenvolvedorList.Select(x => x.ToDesenvolvedorViewModel()).ToList());
+            return new ResponseViewModel<List<DesenvolvedorViewModel>>(desenvolvedorList.Select(x => x.ToDesenvolvedorViewModel()).ToList());
         }
 
-        public async Task<DefaultViewModel<DesenvolvedorViewModel>> FindById(int id)
+        public async Task<ResponseViewModel<DesenvolvedorViewModel>> FindById(int id)
         {
             var desenvolvedor = await _desenvolvedorRepository.FindByIdWithSkills(id);
-            return new DefaultViewModel<DesenvolvedorViewModel>(desenvolvedor.ToDesenvolvedorViewModel());
+
+            DesenvolvedorValidador.Validate(desenvolvedor);
+
+            return new ResponseViewModel<DesenvolvedorViewModel>(desenvolvedor.ToDesenvolvedorViewModel());
         }
 
-        public async Task<DefaultViewModel<DesenvolvedorViewModel>> AddAsync(DesenvolvedorInputModel model)
+        public async Task<ResponseViewModel<DesenvolvedorViewModel>> AddAsync(DesenvolvedorInputModel model)
         {
             if (await _desenvolvedorRepository.ExistByEmail(model.Email))
-                throw new Exception($"E-mail já existente.");
+                throw new ArgumentException($"E-mail já existente.");
 
             var skills = await SkillValidator.CreateSkillNotExists(model.Skills, _skillRepository);
 
             var desenvolvedor = await _desenvolvedorRepository.Add(model.ToDesenvolvedor(skills));
 
-            return new DefaultViewModel<DesenvolvedorViewModel>(desenvolvedor.ToDesenvolvedorViewModel());
+            return new ResponseViewModel<DesenvolvedorViewModel>(desenvolvedor.ToDesenvolvedorViewModel());
 
         }
 
-        public async Task<DefaultViewModel<DesenvolvedorViewModel>> UpdateById(int id, DesenvolvedorUpdateInputModel model)
+        public async Task<ResponseViewModel<DesenvolvedorViewModel>> UpdateById(int id, DesenvolvedorUpdateInputModel model)
         {
             var desenvolvedor = await _desenvolvedorRepository.FindById(id);
 
@@ -73,17 +76,17 @@ namespace Atos.DevSkills.Service.Service
 
             var desenvolvedorUpdate = await _desenvolvedorRepository.Update(dev);
 
-            return new DefaultViewModel<DesenvolvedorViewModel>(desenvolvedorUpdate.ToDesenvolvedorViewModel());
+            return new ResponseViewModel<DesenvolvedorViewModel>(desenvolvedorUpdate.ToDesenvolvedorViewModel());
         }
 
-        public async Task<DefaultViewModel<string>> Delete(int id)
+        public async Task<ResponseViewModel<string>> Delete(int id)
         {
             var desenvolvedor = await _desenvolvedorRepository.FindById(id);
             DesenvolvedorValidador.Validate(desenvolvedor);
 
             await _desenvolvedorRepository.Delete(desenvolvedor);
 
-            return new DefaultViewModel<string>("Desenvolvedor deletado com sucesso.");
+            return new ResponseViewModel<string>("Desenvolvedor deletado com sucesso.");
         }
     }
 }
