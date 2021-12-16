@@ -3,10 +3,13 @@ using Atos.DevSkills.Domain.IService;
 using Microsoft.AspNetCore.Authorization;
 using Atos.DevSkills.Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
+using Atos.DevSkills.Domain.Model;
 
 namespace Atos.DevSkills.API.Controllers
-{
+{    
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class DesenvolvedorController : ControllerBase
     {
@@ -17,7 +20,18 @@ namespace Atos.DevSkills.API.Controllers
             _desenvolvedorService = desenvolvedorService;
         }
 
-        [Authorize]
+
+        /// <summary>
+        /// Retorna lista de desenvolvedores.
+        /// </summary>   
+        /// <response code="200">lista de desenvolvedores.</response>
+        /// <response code="400">Contém erros de validação.</response>
+        /// <response code="500">Erro interno do servidor.</response>
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResponseViewModel<List<DesenvolvedorViewModel>>), 200)]
+        [ProducesResponseType(typeof(ErrorsViewModel), 400)]
+        [ProducesResponseType(500)]
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
@@ -25,6 +39,18 @@ namespace Atos.DevSkills.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Retorna um desenvolvedor com suas informações detalhadas.
+        /// </summary>
+        /// <param name="id">Identificador do desenvolvedor.</param>  
+        /// <remarks> 
+        /// </remarks>
+        /// <response code="200">Retorna um desenvolvedor com todas as suas informações.</response>
+        /// <response code="400">Contém erros de validação.</response>
+        /// <response code="500">Erro interno no servidor.</response>
+        [ProducesResponseType(typeof(ResponseViewModel<DesenvolvedorViewModel>), 200)]
+        [ProducesResponseType(typeof(ErrorsViewModel), 400)]
+        [ProducesResponseType(500)]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {

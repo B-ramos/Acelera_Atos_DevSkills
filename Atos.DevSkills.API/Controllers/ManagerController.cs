@@ -16,7 +16,7 @@ namespace Atos.DevSkills.API.Controllers
             _managerService = managerService;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> PostAsync([FromBody] LoginInputModel model)
         {
             var token = await _managerService.LoginAsync(model);

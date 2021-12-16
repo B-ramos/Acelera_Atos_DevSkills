@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,9 @@ builder.Services.AddDbContext<DevSkillsContext>(
 
 // Add services to the container.
 builder.Services.AddScoped<DesenvolvedorRepositoryFactory>();
+
 builder.Services.AddScoped<SkillRepositoryFactory>();
+
 builder.Services.AddScoped<IDesenvolvedorService, DesenvolvedorService>();
 builder.Services.AddScoped<ISkillRepository, SkillRepository>();
 builder.Services.AddScoped<IDesenvolvedorRepository, DesenvolvedorRepository>();
@@ -63,8 +66,10 @@ builder.Services.AddSwaggerGen(s =>
                         new string[] {}
                     }
                 });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    s.IncludeXmlComments(xmlPath);
 });
-
 
 
 builder.Services.AddControllers(options =>
@@ -82,6 +87,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Config.JwtKey))
