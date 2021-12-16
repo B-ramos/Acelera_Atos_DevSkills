@@ -1,5 +1,6 @@
 using Atos.DevSkills.Domain.Config;
 using Atos.DevSkills.Domain.InputModel;
+using Atos.DevSkills.Domain.IService;
 using Atos.DevSkills.Infra.Data.Repository.Factories;
 using Atos.DevSkills.Service.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,15 +13,15 @@ namespace Atos.DevSkills.Test
     [TestClass]
     public class DesenvolvedorServiceTest
     {
-        private readonly Mock<DesenvolvedorRepositoryFactory> _repositoryFactory;
-        private readonly Mock<SkillRepositoryFactory> _skillFactory;
+        private readonly IDesenvolvedorService _service;
 
         public DesenvolvedorServiceTest()
         {
             Config.Flag = true;
 
-            _repositoryFactory = new Mock<DesenvolvedorRepositoryFactory>(null);
-            _skillFactory = new Mock<SkillRepositoryFactory>(null);
+            _service = new DesenvolvedorService(
+                new Mock<DesenvolvedorRepositoryFactory>(null).Object,
+                new Mock<SkillRepositoryFactory>(null).Object);
         }
 
         [TestMethod]
@@ -37,11 +38,9 @@ namespace Atos.DevSkills.Test
             dev.DtNascimento = DateTime.Now;
             dev.Telefone = "+5586998745632";
             dev.Email = "jose@email.com";
-            dev.Skills = skills;            
+            dev.Skills = skills; 
 
-            var service = new DesenvolvedorService(_repositoryFactory.Object, _skillFactory.Object);
-
-            var response = service.AddAsync(dev).Result;
+            var response = _service.AddAsync(dev).Result;
 
             Assert.AreEqual(0, response.CodError);
         }
@@ -59,12 +58,10 @@ namespace Atos.DevSkills.Test
             dev.DtNascimento = DateTime.Now;
             dev.Telefone = "+5586998745632";
             dev.Email = "teste@email.com";
-            dev.Skills = skills;            
-
-            var service = new DesenvolvedorService(_repositoryFactory.Object, _skillFactory.Object);
+            dev.Skills = skills;  
 
             var exe = Assert.ThrowsExceptionAsync<Exception>(
-                async () => await service.AddAsync(dev));            
+                async () => await _service.AddAsync(dev));            
 
             Assert.AreEqual("E-mail já existente.", exe.Result.Message);
         }
