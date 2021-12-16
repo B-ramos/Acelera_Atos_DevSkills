@@ -10,6 +10,7 @@ namespace Atos.DevSkills.Infra.Data.Context
 
         public DbSet<Desenvolvedor> Desenvolvedores { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Manager> Managers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

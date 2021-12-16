@@ -1,5 +1,6 @@
 ﻿using Atos.DevSkills.Domain.InputModel;
 using Atos.DevSkills.Domain.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Atos.DevSkills.API.Controllers
@@ -15,6 +16,7 @@ namespace Atos.DevSkills.API.Controllers
             _desenvolvedorService = desenvolvedorService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {

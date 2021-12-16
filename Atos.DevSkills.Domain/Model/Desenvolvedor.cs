@@ -1,4 +1,6 @@
-﻿namespace Atos.DevSkills.Domain.Model
+﻿using Atos.DevSkills.Domain.Enum;
+
+namespace Atos.DevSkills.Domain.Model
 {
     public class Desenvolvedor : ModelBase
     {
