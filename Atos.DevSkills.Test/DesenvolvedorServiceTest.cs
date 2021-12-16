@@ -46,6 +46,29 @@ namespace Atos.DevSkills.Test
             Assert.AreEqual(0, response.CodError);
         }
 
+        [TestMethod]
+        public void AddExistingDeveloperEmailShouldThrowAnException()
+        {
+            List<string> skills = new List<string>();
+            skills.Add("C#");
+            skills.Add("String");
+
+            DesenvolvedorInputModel dev = new DesenvolvedorInputModel();
+            dev.NomeCompleto = "José Maria";
+            dev.Cpf = "125478965412";
+            dev.DtNascimento = DateTime.Now;
+            dev.Telefone = "+5586998745632";
+            dev.Email = "teste@email.com";
+            dev.Skills = skills;            
+
+            var service = new DesenvolvedorService(_repositoryFactory.Object, _skillFactory.Object);
+
+            var exe = Assert.ThrowsExceptionAsync<Exception>(
+                async () => await service.AddAsync(dev));            
+
+            Assert.AreEqual("E-mail já existente.", exe.Result.Message);
+        }
+
     }
 }
   
