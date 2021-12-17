@@ -11,11 +11,11 @@ namespace Atos.DevSkills.API.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class DesenvolvedorController : ControllerBase
+    public class DeveloperController : ControllerBase
     {
         private readonly IDesenvolvedorService _desenvolvedorService;
 
-        public DesenvolvedorController(IDesenvolvedorService desenvolvedorService)
+        public DeveloperController(IDesenvolvedorService desenvolvedorService)
         {
             _desenvolvedorService = desenvolvedorService;
         }
