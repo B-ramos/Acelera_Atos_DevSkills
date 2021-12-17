@@ -20,7 +20,6 @@ namespace Atos.DevSkills.API.Controllers
             _desenvolvedorService = desenvolvedorService;
         }
 
-
         /// <summary>
         /// Retorna lista de desenvolvedores.
         /// </summary>   
@@ -58,6 +57,18 @@ namespace Atos.DevSkills.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Retorna um desenvolvedor com suas informações detalhadas filtrado pela skill.
+        /// </summary>
+        /// <param name="skill">Descrição de skill de um desenvolvedor.</param>  
+        /// <remarks> 
+        /// </remarks>
+        /// <response code="200">Retorna um desenvolvedor com todas as suas informações de acordo com a skill filtrada.</response>
+        /// <response code="400">Contém erros de validação.</response>
+        /// <response code="500">Erro interno no servidor.</response>
+        [ProducesResponseType(typeof(ResponseViewModel<DesenvolvedorViewModel>), 200)]
+        [ProducesResponseType(typeof(ErrorsViewModel), 400)]
+        [ProducesResponseType(500)]
         [HttpGet("skill")]
         public async Task<IActionResult> GetBySkillAsync([FromQuery] string? skill)
         {
@@ -65,6 +76,18 @@ namespace Atos.DevSkills.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Insere um novo desenvolvedor.
+        /// </summary>
+        /// <param name="desenvolvedorModel">Objeto mapeado para inserção de um desenvolvedor.</param>  
+        /// <remarks> 
+        /// </remarks>
+        /// <response code="200">Sucesso ao cadastrar o usuário.</response>
+        /// <response code="400">Contém erros de validação.</response>
+        /// <response code="500">Erro interno no servidor.</response>
+        [ProducesResponseType(typeof(ResponseViewModel<DesenvolvedorViewModel>), 200)]
+        [ProducesResponseType(typeof(ErrorsViewModel), 400)]
+        [ProducesResponseType(500)]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] DesenvolvedorInputModel model)
         {
@@ -72,6 +95,18 @@ namespace Atos.DevSkills.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Altera informações de um desenvolvedor.
+        /// </summary>
+        /// <param name="id">Identificador de um desenvolvedor.</param>  
+        /// <remarks> 
+        /// </remarks>
+        /// <response code="200">Sucesso ao editar os dados de um desenvolvedor.</response>
+        /// <response code="400">Contém erros de validação.</response>
+        /// <response code="500">Erro interno no servidor.</response>
+        [ProducesResponseType(typeof(ResponseViewModel<DesenvolvedorViewModel>), 200)]
+        [ProducesResponseType(typeof(ErrorsViewModel), 400)]
+        [ProducesResponseType(500)]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] DesenvolvedorUpdateInputModel model)
         {
@@ -79,6 +114,18 @@ namespace Atos.DevSkills.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Deleta um desenvolvedor.
+        /// </summary>
+        /// <param name="id">Identificador de um desenvolvedor.</param>  
+        /// <remarks> 
+        /// </remarks>
+        /// <response code="200">Sucesso ao deletar um desenvolvedor.</response>
+        /// <response code="400">Contém erros de validação.</response>
+        /// <response code="500">Erro interno no servidor.</response>
+        [ProducesResponseType(typeof(ResponseViewModel<string>), 200)]
+        [ProducesResponseType(typeof(ErrorsViewModel), 400)]
+        [ProducesResponseType(500)]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
